@@ -1,61 +1,60 @@
-Rescue Dispatch Simulator
+# Rescue Dispatch Simulator
 
--robust console-based application that manages emergency incidents.Task
- asesses:
-    - program design
-    - collections
-    - stack behaviours
-    - exception handling
-    - automated testing
-    - clear communication
+- robust console-based application that manages emergency incidents.
 
-build:
-    - core Simulator; no graphical interface, database, networking, or file
-      storage is required.
-    - Begins with a small set of sample incidents and repeatedly displays
-      a menu until user chooses to exit. All data exists onlu for the
-      current run of the program.
+Task assesses:
 
-rules:
-    - write, compile, run, and test multi-class Java application.
-    - stated problem into program design.
-    - objects, methods, collections, and a stack for appropriate
-      responsibilities.
-    - validate input and recover safely from expected errors using
-      exceptions.
-    - apply readable coding conventions and explain implementation
-      decisions.
+- program design
+- collections
+- stack behaviours
+- exception handling
+- automated testing
+- clear communication
 
+## Build
 
-Core domain rules:
+- core Simulator; no graphical interface, database, networking, or file storage is required.
+- Begins with a small set of sample incidents and repeatedly displays a menu until user chooses to exit. All data exists onlu for the current run of the program.
 
-Field                   Rules
-    IndicentID              A unique positive integer.
-    Location                A non-blank line of text.
-    Type                    MEDICAL, FIRE, TRAFFIC, or OTHER.
-    Severity                An integer from 1 (lowest) to 5 (highest).
-    Status                  WAITING or DISPATCHED.
-    Dispatch order          Highest severity first; if tied, the lowest
-                            incident ID first.
+## Rules
 
-Required functionality:
-    - View incidents
-    - add an incident
-    - Dispatch next incident
-    - Undo last dispatch
-    - Search by ID
-    - Show session summary
-    - exit
+- write, compile, run, and test multi-class Java application.
+- stated problem into program design.
+- objects, methods, collections, and a stack for appropriate responsibilities.
+- validate input and recover safely from expected errors using exceptions.
+- apply readable coding conventions and explain implementation decisions.
 
-Class structure:
-    - incident
-    - DispatchCentre
-    - ConsoleApp
-    - Dispatch centre test
+## Core Domain Rules
 
-Collections and stack rquirement:
-    - Java collection to store waiting incidents.
-    - genuine LIFO stack abstraction for dispatch history
+| Field | Rules |
+|---|---|
+| IndicentID | A unique positive integer. |
+| Location | A non-blank line of text. |
+| Type | MEDICAL, FIRE, TRAFFIC, or OTHER. |
+| Severity | An integer from 1 (lowest) to 5 (highest). |
+| Status | WAITING or DISPATCHED. |
+| Dispatch order | Highest severity first; if tied, the lowest incident ID first. |
 
-Error handling and recovery:
+## Required Functionality
 
+- View incidents
+- add an incident
+- Dispatch next incident
+- Undo last dispatch
+- Search by ID
+- Show session summary
+- exit
+
+## Class Structure
+
+- incident
+- DispatchCentre
+- ConsoleApp
+- Dispatch centre test
+
+## Collections and Stack Requirement
+
+- Java collection to store waiting incidents.
+- genuine LIFO stack abstraction for dispatch history
+
+## Error Handling and Recovery

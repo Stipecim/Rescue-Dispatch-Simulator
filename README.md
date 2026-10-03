@@ -58,3 +58,50 @@ Task assesses:
 - genuine LIFO stack abstraction for dispatch history
 
 ## Error Handling and Recovery
+
+- Must not terminate because invalid input. Explain appropriate usage.
+
+| Situation | Required response |
+|---|---|
+| NonNon-numeric menu option, ID, or severity | Catch the relevant input/conversion exception and ask again. |
+| Severity outside 1-5 | Reject with a meaningful message and ask again. |
+| Blank location or unsupported type | Reject with a meaningful message and ask again. |
+| Duplicate incident ID | Reject without changing existing data. |
+| Dispatch with no waiting incidents | Report that no dispatch is possible; continue running.|
+| Undo with empty history | Report that there is nothing to undo; continue running.|
+
+## JUnit Testing
+
+- automated tests for DispatchCentre and others where useful.
+
+### independent tests for:
+- adding a valid incident;
+- rejecting a duplicate ID;
+- dispatching the highest-severity incidentl;
+- applying the ID tie-break rule;
+- dispatch or undo restoring the most recent dispatch;
+- at least one invalid field or state transition;
+
+## Technical boundries
+
+| Required | Not required / out of scope |
+|---|---|
+| Java console application | Swing or any other GUI |
+| Multiple purposeful classes | Database, web service, or networking |
+| Java collections and LIFO stack | Reading from or writing to files |
+| JUnit tests | Third-party libraries other than JUnit |
+| Runs in the specified VS Code environment | IDE-specific project dependencies |
+
+## Sample interaction
+```
+    Waiting incidents
+    -----------------
+    104 | Union Street | FIRE    | severity 5
+    108 | King Street  | MEDICAL | severity 4
+
+    Select: 3
+    Dispatched incident 104 to Union Street.
+
+    Select: 4
+    Dispatch undone. Incident 104 is waiting again.
+```

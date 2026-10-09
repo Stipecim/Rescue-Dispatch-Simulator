@@ -10,6 +10,24 @@ public class Incident {
                     int severity, IncidentStatus status)
     {
 
+        if (location == null || location.isBlank()) {
+            throw new IllegalArgumentException(
+                "Location cannot be blank."
+            );
+        }
+
+        if (severity < 1 || severity > 5) {
+            throw new IllegalArgumentException(
+                "Severity must be between 1 and 5."
+            );
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException(
+                "Incident type cannot be null."
+            );
+        }
+
         this.incidentId = incidentId;
         this.location = location;
         this.type = type;

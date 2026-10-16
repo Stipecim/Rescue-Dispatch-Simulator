@@ -3,17 +3,32 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Scanner;
 
+/**
+ * Manages waiting incidents and dispatch history.
+ * Provides operations for adding, dispatching, undoing
+ * and searching incidents.
+ */
 public class DispatchCentre {
 
     private ArrayList<Incident> incidents;
     private Deque<Incident> dispatchHistory;
 
+
+    /**
+     * Creates an empty dispatch centre. Initializes collection and stack.
+     */
     public DispatchCentre() {
         incidents = new ArrayList<>();
         dispatchHistory = new ArrayDeque<>();
 
     }
 
+    /**
+     * Adds an incident to the waiting list if its ID is unique.
+     *
+     * @param incident the incident to add
+     * @throws DispatchException if an incident with the same ID already exists
+     */
     public void addIncident(Incident incident) {
 
         if(searchById(incident.getIncidentId()) == null)
@@ -23,7 +38,11 @@ public class DispatchCentre {
     }
 
 
-
+    /**
+     * Finds the highest-priority incident in the waiting list.
+     *
+     * @return the next incident to dispatch, or null if none are waiting
+     */
     private Incident findNextIncident() {
 
         if (incidents.isEmpty()) return null;
@@ -31,8 +50,8 @@ public class DispatchCentre {
 
         for (Incident incident : incidents) {
 
-            // Tie-brak rule is if next incident equals current highest current highest still
-            // takes precedence due to being added before to the waiting list.
+            // Tie-break rule:If severity is equal, the incident already stored in
+            // highest keeps priority because it was added first. 
             if (highest.getSeverity() < incident.getSeverity()) {
                 highest = incident;
             }
@@ -42,6 +61,11 @@ public class DispatchCentre {
         return highest;
     }
 
+    /**
+     * Dispatches the next highest-priority waiting incident.
+     *
+     * @return the dispatched incident, or null if none are waiting
+     */
     public Incident dispatchNextIncident() {
 
         Incident incident = findNextIncident();
@@ -57,6 +81,12 @@ public class DispatchCentre {
         return null;
     }
 
+    /**
+     * Undoes the most recent dispatch and returns the incident
+     * to the waiting list.
+     *
+     * @return the undone incident, or null if there is no dispatch to undo
+     */
     public Incident undoLastDispatch() {
 
         Incident incident = dispatchHistory.poll();
@@ -71,6 +101,12 @@ public class DispatchCentre {
         return null;
     }
 
+    /**
+     * Searches both waiting and dispatched incidents by ID.
+     *
+     * @param incidentId the incident ID to search for
+     * @return the matching incident, or null if none is found
+     */
     public Incident searchById(int incidentId) {
 
         for (Incident incident : incidents) {
@@ -86,6 +122,11 @@ public class DispatchCentre {
         return null;
     }
 
+    /**
+     * Creates a summary of the incidents in the current session.
+     *
+     * @return a formatted session summary
+     */
     public String showSessionSummary() {
         return String.format(
             "%nWaiting incidents:      %d%n" +
@@ -103,6 +144,12 @@ public class DispatchCentre {
         );
     }
 
+    /**
+     * Counts incidents of a specified type.
+     *
+     * @param incidentType the type of incident to count
+     * @return the number of incidents of that type
+     */
     private int dispatchesByIncidentType(IncidentType incidentType) {
 
         int incidentTypeCounter = 0;
@@ -126,6 +173,13 @@ public class DispatchCentre {
         return dispatchHistory;
     }
 
+
+    /**
+     * Asks the user to confirm whether the program should terminate.
+     *
+     * @param scanner scanner used to read user input
+     * @return true if the user confirms exit, otherwise false
+     */
     public boolean Exit(Scanner scanner) {
 
         String response = scanner.nextLine();

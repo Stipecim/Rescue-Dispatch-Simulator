@@ -1,3 +1,13 @@
+/**
+ * Represents an emergency incident and stores the information
+ * of incident; id, location, type, severity and status.
+ *
+ * @param incidentId unique ID of the incident
+ * @param location location of the incident
+ * @param type type of incident
+ * @param severity severity from 1 to 5
+ * @param status current incident status
+ */
 public class Incident {
 
     private int incidentId;
@@ -6,6 +16,10 @@ public class Incident {
     private int severity;
     private IncidentStatus status;
 
+
+    /**
+        * Creates an incident.
+    */
     public Incident(int incidentId, String location, IncidentType type,
                     int severity, IncidentStatus status)
     {

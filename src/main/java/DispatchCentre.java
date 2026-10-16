@@ -12,15 +12,14 @@ public class DispatchCentre {
         incidents = new ArrayList<>();
         dispatchHistory = new ArrayDeque<>();
 
-        addSamples();
     }
 
     public void addIncident(Incident incident) {
 
-        if(searchById(incident.getIncidentId()) != null)
+        if(searchById(incident.getIncidentId()) == null)
             incidents.add(incident);
-
-        System.out.println("Incident not found.");
+        else
+            throw new DispatchException("There is already incident with the same ID");
     }
 
 
@@ -32,6 +31,8 @@ public class DispatchCentre {
 
         for (Incident incident : incidents) {
 
+            // Tie-brak rule is if next incident equals current highest current highest still
+            // takes precedence due to being added before to the waiting list.
             if (highest.getSeverity() < incident.getSeverity()) {
                 highest = incident;
             }
@@ -77,13 +78,17 @@ public class DispatchCentre {
                 return incident;
         }
 
+        for (Incident incident : dispatchHistory) {
+            if (incident.getIncidentId() == incidentId)
+                return incident;
+        }
 
         return null;
     }
 
-    public void showSessionSummary() {
-        System.out.printf(
-            "Waiting incidents:      %d%n" +
+    public String showSessionSummary() {
+        return String.format(
+            "%nWaiting incidents:      %d%n" +
             "Completed dispatches:   %d%n" +
             "MEDICAL:                %d%n" +
             "FIRE:                   %d%n" +
@@ -121,9 +126,7 @@ public class DispatchCentre {
         return dispatchHistory;
     }
 
-    public boolean Exit() {
-        System.out.println("Are you sure you want to terminate this program? (y/n)");
-        Scanner scanner = new Scanner(System.in);
+    public boolean Exit(Scanner scanner) {
 
         String response = scanner.nextLine();
 
@@ -147,72 +150,5 @@ public class DispatchCentre {
                 System.out.println("Input must be y or n.");
             }
         }
-    }
-
-    private void addSamples() {
-
-        incidents.add(new Incident(
-            1,
-            "Union Street",
-            IncidentType.FIRE,
-            5,
-            IncidentStatus.WAITING
-        ));
-
-        incidents.add(new Incident(
-            2,
-            "King Street",
-            IncidentType.MEDICAL,
-            4,
-            IncidentStatus.WAITING
-        ));
-
-        incidents.add(new Incident(
-            3,
-            "George Street",
-            IncidentType.TRAFFIC,
-            3,
-            IncidentStatus.WAITING
-        ));
-
-        incidents.add(new Incident(
-            4,
-            "Market Street",
-            IncidentType.OTHER,
-            2,
-            IncidentStatus.WAITING
-        ));
-
-        incidents.add(new Incident(
-            5,
-            "Holburn Street",
-            IncidentType.MEDICAL,
-            5,
-            IncidentStatus.WAITING
-        ));
-
-        incidents.add(new Incident(
-            6,
-            "Great Northern Road",
-            IncidentType.FIRE,
-            3,
-            IncidentStatus.WAITING
-        ));
-
-        dispatchHistory.push(new Incident(
-            7,
-            "Rosemount Place",
-            IncidentType.TRAFFIC,
-            4,
-            IncidentStatus.DISPATCHED
-        ));
-
-        dispatchHistory.push(new Incident(
-            8,
-            "Queens Road",
-            IncidentType.MEDICAL,
-            5,
-            IncidentStatus.DISPATCHED
-        ));
     }
 }

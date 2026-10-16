@@ -1,0 +1,76 @@
+<project name="Rescue-Dispatch-Simulator"
+         default="test"
+         basedir=".">
+
+    <property name="src.dir" value="src/main/java"/>
+    <property name="test.dir" value="src/test/java"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+    <property name="lib.dir" value="lib"/>
+
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
+    </target>
+
+    <target name="compile-tests" depends="compile">
+        <mkdir dir="${test.classes.dir}"/>
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="test" depends="compile-tests">
+
+        <junit printsummary="yes">
+
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+                <pathelement path="${test.classes.dir}"/>
+
+                <fileset dir="${lib.dir}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+
+        </junit>
+    </target>
+
+    <target name="run" depends="compile">
+
+        <java
+            classname="ConsoleApp"
+            fork="true">
+
+            <classpath path="${classes.dir}"/>
+
+        </java>
+
+    </target>
+
+    <target name="run-with-samples" depends="compile">
+        <java classname="ConsoleApp" fork="true">
+            <classpath path="${classes.dir}"/>
+
+            <arg value="-samples"/>
+        </java>
+    </target>
+
+</project>
